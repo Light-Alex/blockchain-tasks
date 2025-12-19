@@ -12,6 +12,10 @@ contract testDeposit {
         deposits[msg.sender] = value;
         emit Deposit(msg.sender, value);
     }
+
+    function depositNoEvent(uint value) public {
+        deposits[msg.sender] = value;
+    }
 }
 
 // web3.eth.getTransactionReceipt('0x....').then(console.log);
