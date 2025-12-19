@@ -36,4 +36,9 @@ contract CallTest {
         // addr.call{gas:1000, value: 1 ether}(methodData);
     }
 
+    function lowStaticcallCount(address addr) public {
+        bytes memory methodData =abi.encodeWithSignature("count()");
+        addr.staticcall(methodData);
+    }
+
 }
