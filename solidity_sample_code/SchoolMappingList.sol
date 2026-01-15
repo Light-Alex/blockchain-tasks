@@ -25,7 +25,7 @@ contract SchoolMappingList {
     address prevStudent = _getPrevStudent(student);
     _nextStudents[prevStudent] = _nextStudents[student];
 
-    _nextStudents[prevStudent] = address(0);
+    _nextStudents[student] = address(0);
     listSize --;
   }
 
