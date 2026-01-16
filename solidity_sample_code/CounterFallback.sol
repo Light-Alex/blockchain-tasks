@@ -67,18 +67,29 @@ contract CounterProxy {
 
     function _delegate(address _implementation) internal virtual {
         assembly {
-
+            // 1. 复制原始调用数据
             calldatacopy(0, 0, calldatasize())
-            let result := delegatecall(gas(), _implementation, 0, calldatasize(), 0, 0)
 
+            // 2. 执行委托调用
+            let result := delegatecall(
+                gas(),  // 传递全部gas 
+                _implementation,  // 目标合约地址
+                0,  // 输入数据指针
+                calldatasize(),  // 输入数据长度
+                0,  // 输出数据指针
+                0 // 输出数据长度
+            )
+
+            // 3. 复制返回数据
             returndatacopy(0, 0, returndatasize())
 
+            // 4. 处理调用结果
             switch result
             case 0 {
-                revert(0, returndatasize())
+                revert(0, returndatasize()) // 失败时回滚
             }
             default {
-                return(0, returndatasize())
+                return(0, returndatasize()) // 成功时返回
             }
         }
     }
